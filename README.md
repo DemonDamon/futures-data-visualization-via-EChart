@@ -31,4 +31,6 @@ https://mp.weixin.qq.com/s?__biz=MzIyMjE5Njk1Mw==&mid=503763782&idx=1&sn=e88cde5
 
  - 按照https://github.com/DemonDamon/tongdaxin-futures-data-clearing-database-operation 处理好数据并存入数据库
  - 启动MongoDB，运行该py脚本后，输入必要的参数，如下图所示：
- ![image](https://github.com/DemonDamon/tongdaxin-futures-data-clearing-database-operation/blob/master/data-mongod.jpg)
+ ![image](https://github.com/DemonDamon/futures-data-visualization-via-EChart/blob/master/rb.jpg)
+ ![image](https://github.com/DemonDamon/futures-data-visualization-via-EChart/blob/master/al.jpg)
+ ![image](https://github.com/DemonDamon/futures-data-visualization-via-EChart/blob/master/ma.jpg)
