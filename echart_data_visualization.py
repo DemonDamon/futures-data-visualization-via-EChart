@@ -3,7 +3,7 @@ from sys import path
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 from PyQt5.QtCore import QUrl
-from PyQt5.QtWebKitWidgets import QWebView
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 from Form import Ui_Damon   
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -12,9 +12,9 @@ import numpy as np
 
 class mywindow(QtWidgets.QWidget,Ui_Damon):    
     def __init__(self):
-        if not os.path.exists(os.getcwd() + '\\' + 'data_file'):
-            os.makedirs(os.getcwd() + '\\' + 'data_file')
-        self.savepath = os.getcwd() + '\\' + 'data_file'
+        if not os.path.exists(os.getcwd() + '/' + 'data_file'):
+            os.makedirs(os.getcwd() + '/' + 'data_file')
+        self.savepath = os.getcwd() + '/' + 'data_file'
         super(mywindow,self).__init__()    
         self.setupUi(self)
         self.BrowseB1.clicked.connect(self.openDataFile)
@@ -201,7 +201,7 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
                     + ' ' + str(time[i])[:-2] + ':' + str(time[i])[-2:])
                     dataK.append([Open[i],Close[i],Low[i],High[i]])
                     DataforJS.append([dateS[-1],Open[i],Close[i],Low[i],High[i]])
-                Path = self.savepath + '\\' + self.savename + '(' + self.dataFrame + ').txt'
+                Path = self.savepath + '/' + self.savename + '(' + self.dataFrame + ').txt'
                 with open(Path,'w') as f:
                     for i in range(len(DataforJS)):
                         f.write("['" + DataforJS[i][0] + "'," + \
@@ -217,7 +217,7 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
                     + ' ' + str(time[i])[:-2] + ':' + str(time[i])[-2:])
                     dataK.append([Open[i],Close[i],Low[i],High[i],Volumn[i]])
                     DataforJS.append([dateS[-1],Open[i],Close[i],Low[i],High[i],Volumn[i]])
-                Path = self.savepath + '\\' + self.savename + '(' + self.dataFrame + ').txt'
+                Path = self.savepath + '/' + self.savename + '(' + self.dataFrame + ').txt'
                 with open(Path,'w') as f:
                     for i in range(len(DataforJS)):
                         f.write("['" + DataforJS[i][0] + "'," + \
@@ -238,7 +238,7 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
                     dateS.append(str(date_day[i])[0:4] + '/' + str(date_day[i])[4:6] + '/' + str(date_day[i])[6:])
                     dataK.append([Open_day[i],Close_day[i],Low_day[i],High_day[i]])
                     DataforJS.append([dateS[-1],Open_day[i],Close_day[i],Low_day[i],High_day[i]])
-                Path = self.savepath + '\\' + self.savename + '(' + self.dataFrame + ').txt'
+                Path = self.savepath + '/' + self.savename + '(' + self.dataFrame + ').txt'
                 with open(Path,'w') as f:
                     for i in range(len(DataforJS)):
                         f.write("['" + DataforJS[i][0] + "'," + \
@@ -253,7 +253,7 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
                     dateS.append(str(date_day[i])[0:4] + '/' + str(date_day[i])[4:6] + '/' + str(date_day[i])[6:])
                     dataK.append([Open_day[i],Close_day[i],Low_day[i],High_day[i],Volumn_day[i]])
                     DataforJS.append([dateS[-1],Open_day[i],Close_day[i],Low_day[i],High_day[i],Volumn_day[i]])
-                Path = self.savepath + '\\' + self.savename + '(' + self.dataFrame + ').txt'
+                Path = self.savepath + '/' + self.savename + '(' + self.dataFrame + ').txt'
                 with open(Path,'w') as f:
                     for i in range(len(DataforJS)):
                         f.write("['" + DataforJS[i][0] + "'," + \
@@ -283,13 +283,13 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
                     njsStr = njsStr + importdata[i]
                 njsStr = njsStr + jsStr[len(Str)+1:]
             if njsStr.find(Str2) != 0:
-                if self.dataPath.split('\\')[-1][:-4] == 'MxkOfSglTrdRge':
+                if self.dataPath.split('/')[-1][:-4] == 'MxkOfSglTrdRge':
                     njsStr1 = njsStr[:njsStr.find(Str2)+len(Str2)] + "'单笔最大亏损区间'" \
                     + njsStr[njsStr.find(Str2)+len(Str2):]
-                elif self.dataPath.split('\\')[-1][:-4] == 'MxkRge':
+                elif self.dataPath.split('/')[-1][:-4] == 'MxkRge':
                     njsStr1 = njsStr[:njsStr.find(Str2)+len(Str2)] + "'回测期最大回撤区间'" \
                     + njsStr[njsStr.find(Str2)+len(Str2):]            
-                elif self.dataPath.split('\\')[-1][:-4] == 'MxAmntOfCtusWdlRge':
+                elif self.dataPath.split('/')[-1][:-4] == 'MxAmntOfCtusWdlRge':
                     njsStr1 = njsStr[:njsStr.find(Str2)+len(Str2)] + "'最大连续回撤次数区间'" \
                     + njsStr[njsStr.find(Str2)+len(Str2):]
                 else:
@@ -368,17 +368,17 @@ class mywindow(QtWidgets.QWidget,Ui_Damon):
         if self.dataFrame == '1M' or self.dataFrame == '5M':
             if self.startTime == 0 and self.endTime == 0:
                 self.savename = str(self.startDate) + "-" + str(self.endDate)
-                self.newHTMLPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').html'
-                self.dataPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').txt'
+                self.newHTMLPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').html'
+                self.dataPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').txt'
             else:
                 self.savename = str(self.startDate) + str(self.startTime) + "-" + str(self.endDate) + str(self.endTime)
-                self.newHTMLPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').html'
-                self.dataPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').txt'
+                self.newHTMLPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').html'
+                self.dataPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').txt'
         elif self.dataFrame =='D':
             self.savename = str(self.startDate) + "-" + str(self.endDate)
-            self.newHTMLPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').html'
-            self.dataPath = self.savepath + "\\" + self.savename + '(' + self.dataFrame + ').txt'     
-        self.modelHTMLPath = os.getcwd() + "\\" + self.modelType + ".html"
+            self.newHTMLPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').html'
+            self.dataPath = self.savepath + "/" + self.savename + '(' + self.dataFrame + ').txt'     
+        self.modelHTMLPath = os.getcwd() + "/" + self.modelType + ".html"
         try:
            self.CreateHTMLForAnalysis()
            self.load()

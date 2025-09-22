@@ -73,7 +73,7 @@ class Ui_Damon(object):
         self.pushButton = QtWidgets.QPushButton(Damon)
         self.pushButton.setGeometry(QtCore.QRect(1270, 720, 271, 131))
         self.pushButton.setObjectName("pushButton")
-        self.webView = QtWebKitWidgets.QWebView(Damon)
+        self.webView = QtWebEngineWidgets.QWebEngineView(Damon)
         self.webView.setGeometry(QtCore.QRect(20, 60, 1521, 631))
         self.webView.setUrl(QtCore.QUrl("about:blank"))
         self.webView.setObjectName("webView")
@@ -131,4 +131,4 @@ class Ui_Damon(object):
         self.DataPathL_4.setText(_translate("Damon", "*PORT:"))
         self.DataPathL_5.setText(_translate("Damon", "*Database Name:"))
 
-from PyQt5 import QtWebKitWidgets
+from PyQt5 import QtWebEngineWidgets
