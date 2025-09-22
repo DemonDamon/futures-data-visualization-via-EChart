@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+pandas
+numpy
+pymongo
+cors    
+fastapi-cors    
+python-multipart    
+aiofiles
+python-dotenv
+supabase
+python-jose[cryptography]
+passlib[bcrypt]
+email-validator

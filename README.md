@@ -1,35 +1,190 @@
-# 基于E-Chart的期货数据可视化（K线图）
+# 期货数据可视化平台
 
+一个现代化的前后端分离期货数据可视化平台，支持实时数据展示、多种图表类型和响应式设计。
 
--------------------------------
+## 技术栈
 
-## * 简介
+### 前端
+- React 18 + TypeScript
+- Vite (构建工具)
+- TailwindCSS (样式框架)
+- ECharts (图表库)
+- React Query (数据获取)
+- React Router (路由)
+- Heroicons (图标)
 
-基本步骤可参考本人的微文：
-https://mp.weixin.qq.com/s?__biz=MzIyMjE5Njk1Mw==&mid=503763782&idx=1&sn=e88cde5499ee7b9041e5cf0d534c8811&scene=19#wechat_redirect
+### 后端
+- FastAPI (Python Web框架)
+- MongoDB (数据库)
+- Pandas (数据处理)
+- Pydantic (数据验证)
+- Uvicorn (ASGI服务器)
 
-开发环境`Python-v3(3.6)`：
+## 功能特性
 
- - pandas==0.20.0
- - numpy==1.13.3+mkl
- - pymongo==3.6.0
- - beautifulsoup4==4.6.0
- - PyQt5
+- 📊 **多种图表类型**: 支持K线图、折线图等多种可视化方式
+- 📁 **数据上传**: 支持CSV文件上传和数据导入
+- 🔍 **合约选择**: 动态加载和选择期货合约
+- 📱 **响应式设计**: 适配各种屏幕尺寸
+- ⚡ **实时更新**: 支持数据实时刷新
+- 🎨 **现代化UI**: 基于TailwindCSS的美观界面
 
-## * 可视化界面(`echart_data_visualization.py`)
+## 项目结构
 
- - conn_mongodb函数，连接数据库，返回一个collection
- - extractData函数，返回数据库中特定标签数据，以pandas.DataFrame格式返回
- - InputDataFromMongoDB函数，从数据库中查询并抽取所需数据，以numpy.array的格式返回
- - InputDatabyPd函数，导入外部数据，如果需要导入自定义格式数据，则需要重载这个函数，或者直接在此py上改写即可
- - CheckAnyTimeRangeData函数，将数据转成js列表并保存到txt文件中，存储目录在根目录的data_file文件中
- - CreateHTMLForAnalysis函数，用beautifulsoup4来解析EChart的html模板，并把生成的js列表数据插入模板中，生成新的html文件，存储在data_file文件中
- - comBoxAct、leAct、openDataFile、closeEvent、msg均是一些PyQt的监听与执行函数
- - load函数，即在最终的界面上以网页的形式呈现出K线图
+```
+.
+├── frontend/                 # 前端项目
+│   ├── src/
+│   │   ├── components/       # React组件
+│   │   ├── pages/           # 页面组件
+│   │   ├── services/        # API服务
+│   │   └── main.tsx         # 入口文件
+│   ├── package.json
+│   └── vite.config.ts
+├── backend/                  # 后端项目
+│   ├── api/                 # API路由
+│   ├── core/                # 核心配置
+│   ├── models/              # 数据模型
+│   ├── services/            # 业务逻辑
+│   ├── main.py              # 入口文件
+│   └── requirements.txt
+└── README.md
+```
 
-## * 用法
+## 快速开始
 
- - 按照https://github.com/DemonDamon/tongdaxin-futures-data-clearing-database-operation 处理好数据并存入数据库；或者重载InputDatabyPd函数，导入自定义的CSV或MAT文件
- - 启动MongoDB，运行该py脚本后，输入必要的参数，如下图所示：
- ![image](https://github.com/DemonDamon/futures-data-visualization-via-EChart/blob/master/model1.jpg)
- ![image](https://github.com/DemonDamon/futures-data-visualization-via-EChart/blob/master/model2.jpg)
+### 环境要求
+
+- Node.js 18+
+- Python 3.8+
+- MongoDB 4.4+
+
+### 安装依赖
+
+#### 前端
+```bash
+cd frontend
+npm install
+```
+
+#### 后端
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+### 启动服务
+
+#### 1. 启动MongoDB
+```bash
+# 确保MongoDB服务正在运行
+mongod
+```
+
+#### 2. 启动后端服务
+```bash
+cd backend
+python main.py
+# 或使用uvicorn
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### 3. 启动前端服务
+```bash
+cd frontend
+npm run dev
+```
+
+### 访问应用
+
+- 前端: http://localhost:3000
+- 后端API: http://localhost:8000
+- API文档: http://localhost:8000/docs
+
+## 数据格式
+
+### CSV文件格式要求
+
+上传的CSV文件需要包含以下列：
+
+| 列名 | 类型 | 描述 |
+|------|------|------|
+| instrument | string | 合约代码 |
+| time | datetime | 时间 (YYYY-MM-DD HH:MM:SS) |
+| interface | string | 接口类型 |
+| open | float | 开盘价 |
+| high | float | 最高价 |
+| low | float | 最低价 |
+| close | float | 收盘价 |
+| volume | int | 成交量 |
+| open_interest | int | 持仓量 (可选) |
+
+### 示例数据
+
+```csv
+instrument,time,interface,open,high,low,close,volume,open_interest
+RBHot,2023-01-01 09:00:00,5m,3500.0,3520.0,3495.0,3510.0,1000,5000
+RBHot,2023-01-01 09:05:00,5m,3510.0,3530.0,3505.0,3525.0,1200,5100
+```
+
+## API接口
+
+### 主要端点
+
+- `GET /api/futures/data` - 获取期货数据
+- `POST /api/futures/chart-data` - 获取图表数据
+- `GET /api/futures/instruments` - 获取合约列表
+- `POST /api/futures/upload` - 上传CSV文件
+- `DELETE /api/futures/data` - 清空数据
+
+详细API文档请访问: http://localhost:8000/docs
+
+## 开发指南
+
+### 前端开发
+
+```bash
+cd frontend
+npm run dev      # 开发模式
+npm run build    # 构建生产版本
+npm run preview  # 预览生产版本
+npm run lint     # 代码检查
+```
+
+### 后端开发
+
+```bash
+cd backend
+python main.py                    # 启动开发服务器
+uvicorn main:app --reload         # 使用uvicorn启动
+```
+
+## 部署
+
+### 前端部署
+
+```bash
+cd frontend
+npm run build
+# 将dist目录部署到静态文件服务器
+```
+
+### 后端部署
+
+```bash
+cd backend
+# 使用gunicorn部署
+gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
+```
+
+## 贡献
+
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
